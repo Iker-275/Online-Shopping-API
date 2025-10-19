@@ -1,0 +1,16 @@
+{
+  "name": "shopping_api",
+  "version": "1.0.0",
+  "description": "An api service.",
+  "main": "index.js",
+  "scripts": {
+    "start":"node index.js",
+    "dev":"nodemon index.js"
+  
+  },
+  "author": "Anderson",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
