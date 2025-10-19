@@ -1,6 +1,7 @@
+require("dotenv").config();
 const express = require("express");
 const https = require("https");
-
+const connectDB = require("./db/connect");
 
 const app = express();
 
@@ -22,11 +23,12 @@ app.use("/api/products",product_routes);
 
 const start = async function(){
 try {
+    await connectDB(process.env.MONGODB_URL);
     app.listen( PORT ,function(){
     console.log('  Listening on port '+ PORT);
 })
 } catch (error) {
-    console,log(error);
+    console.log(error);
 }
 
 }
