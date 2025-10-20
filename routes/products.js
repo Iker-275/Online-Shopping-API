@@ -6,7 +6,7 @@ const {getAllProducts,getAllProductsTesting,getProductsByName} = require("../con
 
 router.route("/").get(getAllProducts);
 router.route("/testing").get(getAllProductsTesting);
-router.route("/name").get(getProductsByName);
+router.route("/search").get(getProductsByName);
 
 
 

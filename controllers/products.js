@@ -7,7 +7,7 @@ const getAllProducts = async (req,res)=> {
 }
 
 const getProductsByName = async (req,res)=> {
-    const myData =  await Product.find({name : 'iPhone 15 Pro' });
+    const myData =  await Product.find( req.query);
     res.status(200).json({ myData });
 }
 const getAllProductsTesting = async (req,res)=> {
