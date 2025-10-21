@@ -7,7 +7,7 @@ const getAllProducts = async (req,res)=> {
 }
 
 const getProductsByName = async (req,res)=> {
-   const {company,name,featured,price,sort} = req.query;
+   const {company,name,featured,price,sort,select} = req.query;
    const queryObject = {};
 if(company)
 {
@@ -27,8 +27,15 @@ if(name){
 let apiData = Product.find( queryObject);
 if(sort){
     let sortFix = sort.replace(","," ");
-   // queryObject.sort = sortFix;
+    
    apiData = apiData.sort(sortFix);
+}
+
+if(select){
+   // let selectFix = select.replace(","," ");
+    let selectFix = select.split(",").join(" ");
+
+     apiData = apiData.select(selectFix);
 }
 
 //console.log(queryObject);
@@ -36,7 +43,9 @@ if(sort){
     res.status(200).json({ myData });
 }
 const getAllProductsTesting = async (req,res)=> {
-    const testData =  await Product.find().sort("-name");
+    //const testData =  await Product.find().sort("-name");
+    const testData =  await Product.find().select("name price company");
+
 
     res.status(200).json({ testData });
     
