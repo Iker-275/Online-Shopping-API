@@ -2,8 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const https = require("https");
 const connectDB = require("./db/connect");
+const bodyParser = require("body-parser");
 
 const app = express();
+app.use(bodyParser.json());
 
 const PORT = 5000 || process.env.PORT;
 

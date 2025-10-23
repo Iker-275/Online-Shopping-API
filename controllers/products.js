@@ -38,9 +38,20 @@ if(select){
      apiData = apiData.select(selectFix);
 }
 
+let page = Number(req.query.page) || 1;
+let limit = Number(req.query.limit) || 10;
+
+let skip = (page- 1)* limit ;
+
+apiData = apiData.skip(skip).limit(limit);
+
+
+
 //console.log(queryObject);
     const myData =  await apiData;
-    res.status(200).json({ myData });
+   // res.status(200).json({ myData });
+    res.status(200).json({ myData ,nbHits:myData.length});
+
 }
 const getAllProductsTesting = async (req,res)=> {
     //const testData =  await Product.find().sort("-name");
@@ -51,4 +62,22 @@ const getAllProductsTesting = async (req,res)=> {
     
 }
 
-module.exports ={getAllProducts,getAllProductsTesting,getProductsByName}
+const postNewProduct = async (req,res)=> {
+
+    const data = new Product({
+        name:req.body.name,
+        price:req.body.price,
+        company:req.body.company,
+        rating:req.body.rating,
+        featured:req.body.featured
+
+    })
+    
+    const testData =  await data.save();
+
+
+    res.status(201).json({ testData , message:"succesfully added."});
+    
+}
+
+module.exports ={getAllProducts,getAllProductsTesting,getProductsByName,postNewProduct}
