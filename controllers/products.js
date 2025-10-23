@@ -1,5 +1,9 @@
+const product = require("../models/product");
 const Product = require("../models/product")
-
+const mongoose = require("mongoose");
+const { ObjectId } = require('mongodb');
+    // Then use objectId wherever you need to create an ObjectId
+    // e.g., { _id: objectId(req.params.id) }
 
 const getAllProducts = async (req,res)=> {
     const myData =  await Product.find().sort("name");
@@ -80,4 +84,34 @@ const postNewProduct = async (req,res)=> {
     
 }
 
-module.exports ={getAllProducts,getAllProductsTesting,getProductsByName,postNewProduct}
+const updateProduct = async (req,res)=> {
+  
+     try {
+                const productId = req.params.id.trim().toString();
+                const updateData = req.body;
+
+                console.log("is valid?" + mongoose.Types.ObjectId.isValid(productId));
+
+               // Ensure the ID is a valid ObjectId
+                if (!ObjectId.isValid(productId)) {
+                    return res.status(400).send('Invalid product ID');
+                }
+
+                const result = await Product.updateOne(
+                    { _id: new mongoose.Types.ObjectId(productId)},
+                    { $set: updateData }
+                );
+
+                if (result.matchedCount === 0) {
+                    return res.status(404).send('Product not found');
+                }
+
+                res.status(200).send('Product updated successfully');
+            } catch (error) {
+                console.error('Error updating product:', error);
+                res.status(500).send('Internal Server Error');
+            }
+    
+}
+
+module.exports ={getAllProducts,getAllProductsTesting,getProductsByName,postNewProduct,updateProduct}
