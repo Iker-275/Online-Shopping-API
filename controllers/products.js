@@ -106,12 +106,43 @@ const updateProduct = async (req,res)=> {
                     return res.status(404).send('Product not found');
                 }
 
-                res.status(200).send('Product updated successfully');
+                res.status(200).json({message: 'Product updated successfully', updateData});
             } catch (error) {
                 console.error('Error updating product:', error);
-                res.status(500).send('Internal Server Error');
+                res.status(500).json({message:'Internal Server Error'});
             }
     
 }
 
-module.exports ={getAllProducts,getAllProductsTesting,getProductsByName,postNewProduct,updateProduct}
+const deleteProduct = async (req,res)=> {
+  
+     try {
+                const productId = req.params.id.trim().toString();
+            
+
+                console.log("is valid?" + mongoose.Types.ObjectId.isValid(productId));
+
+               // Ensure the ID is a valid ObjectId
+                if (!ObjectId.isValid(productId)) {
+                    return res.status(400).send('Invalid product ID');
+                }
+
+                const result = await Product.deleteOne(
+                    { _id: new mongoose.Types.ObjectId(productId)}
+                    
+                );
+
+
+                if (result.matchedCount === 0) {
+                    return res.status(404).send('Product not found');
+                }
+
+                res.status(200).json({message: 'Product deleted successfully'});
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                res.status(500).json({message:'Internal Server Error'});
+            }
+    
+}
+
+module.exports ={getAllProducts,getAllProductsTesting,getProductsByName,postNewProduct,updateProduct,deleteProduct}
