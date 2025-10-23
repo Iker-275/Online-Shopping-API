@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 
-const PORT = 5000 || process.env.PORT;
+const PORT = process.env.PORT || 5000 ;
 
 const product_routes = require("./routes/products");
 app.get("/",function(req,res){
